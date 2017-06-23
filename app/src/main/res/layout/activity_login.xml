@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0000"
-    tools:context="com.example.java.mainpage.LoginActivity">
+    android:background="#0000">
 
     <ImageView
         android:layout_width="200dp"
@@ -28,7 +27,7 @@
         android:layout_marginStart="68dp"
         android:textSize="20sp"
         android:onClick="onMainPageClick"
-        android:text="登入" />
+        android:text="登入R" />
 
     <Button
         android:id="@+id/button4"
