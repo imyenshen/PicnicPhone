@@ -1,8 +1,9 @@
 package com.example.java.picnicphone.generalMember;
 
 
+import java.io.Serializable;
 
-public class GeneralMember {
+public class GeneralMember implements Serializable{
 
     private String MEM_NO;
     private String MEM_NAME;
