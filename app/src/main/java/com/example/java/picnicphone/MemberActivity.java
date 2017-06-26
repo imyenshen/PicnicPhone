@@ -1,10 +1,12 @@
 package com.example.java.picnicphone;
 
-import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+
+import com.example.java.picnicphone.generalMember.MemListActivity;
 
 public class MemberActivity extends FragmentActivity {
 
@@ -70,6 +72,11 @@ public class MemberActivity extends FragmentActivity {
     //Tab - Lesson Four的文字內容
     public String getLessonFourText() {
         return "小黑人的Android教室\n- 第四堂課 -";
+    }
+
+    public void btIntoMemList(View view) {
+        Intent intent = new Intent(this,MemListActivity.class);
+        startActivity(intent);
     }
 }
 
