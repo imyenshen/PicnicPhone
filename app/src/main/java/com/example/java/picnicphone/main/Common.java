@@ -14,6 +14,8 @@ public class Common {
 
     public static String URL = "http://10.0.2.2:8081/Picnic_Oracle_Web_Phone/";
 
+
+
     // check if the device connect to the network
     //  檢查網路是否已連線
     public static boolean networkConnected(Activity activity) {

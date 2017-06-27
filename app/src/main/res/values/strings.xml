@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PicnicPhone</string>
+    <string name="text_MessageEmpty">Message is empty!</string>
+    <string name="text_LeftChatRoom">Left caht room</string>
 </resources>

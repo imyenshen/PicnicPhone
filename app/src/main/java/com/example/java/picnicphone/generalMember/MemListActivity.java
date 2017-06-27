@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.java.picnicphone.MemberActivity;
 import com.example.java.picnicphone.R;
@@ -21,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.*;
 import java.util.concurrent.ExecutionException;
-
 
 
 public class MemListActivity extends AppCompatActivity {
@@ -39,7 +39,7 @@ public class MemListActivity extends AppCompatActivity {
         // 測試 資料庫連線{
         List<GeneralMember> generalMemberList = null;
 
-        String url = Common.URL +"General_memberServlet";
+        String url = Common.URL + "General_memberServlet";
         try {
             generalMemberList = new GeneralMemberAllTask().execute(url).get();
 
@@ -106,13 +106,39 @@ public class MemListActivity extends AppCompatActivity {
 
             String url = Common.URL + "General_memberServlet";
             String MEM_NO = generalMember.getMEM_NO();
+            final String MEM_NAME = generalMember.getMEM_NAME();
+
             int imageSize = 250;
             new GeneralMemberImageTask(viewHolder.imageView).execute(url, MEM_NO, imageSize);
             viewHolder.tvId.setText(generalMember.getMEM_NO());
             viewHolder.tvName.setText(generalMember.getMEM_NAME());
             viewHolder.tvGen.setText(generalMember.getMEM_GEN());
 
-            // } 上面在設定監聽器
+
+            // }
+            // { 在下面設定通訊錄的監聽器，開啟對畫頁面
+
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+
+               @Override
+               public void onClick(View v) {
+                   // 從通訊錄裡換頁到對話視窗
+                   Intent intent = new Intent();
+                   intent.setClass(MemListActivity.this,MemChatroomActivity.class);
+
+                   // 我要帶過去的資料
+
+                   Bundle bundle = new Bundle();
+                   bundle.putString("MEM_NAME",MEM_NAME);
+                   intent.putExtras(bundle);
+                   startActivity(intent);
+
+               }
+            });
+
+
+
+            // }
 
         }
     }
