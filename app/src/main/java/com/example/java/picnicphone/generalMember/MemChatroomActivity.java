@@ -1,12 +1,17 @@
 package com.example.java.picnicphone.generalMember;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +48,37 @@ public class MemChatroomActivity extends AppCompatActivity {
     private EditText etMemChatroomMes;
     private ScrollView svMemChatroomMes;
     public String USER_NAME = null;
+    public static Context mContext;
 
+    private LinearLayout llMemChatroomMes;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_mem_chatroom);
+        findViews();
+        mContext = getApplicationContext();
+
+        // 改變對話視窗上面的名稱 {
+        TextView etChatroomName = (TextView) findViewById(R.id.etChatroomName);
+        Bundle bundle = getIntent().getExtras();
+        String MEM_NAME = bundle.getString("MEM_NAME");
+        etChatroomName.setText(MEM_NAME);
+        USER_NAME = MEM_NAME;
+        // }
+
+        // web socket 測試 {
+        URI uri = null;
+        try {
+            uri = new URI(SERVER_URI);
+        } catch (URISyntaxException e) {
+            Log.e(TAG, e.toString());
+        }
+        myWebSocketClient = new MyWebSocketClient(uri);
+        myWebSocketClient.connect();
+        // }
+    }
 
     class MyWebSocketClient extends WebSocketClient {
 
@@ -70,11 +105,51 @@ public class MemChatroomActivity extends AppCompatActivity {
                         String text = userName + ": " + message + "\n";
 
                         // 用這邊判斷誰收到誰送出
+//                        if (USER_NAME.equals(userName)){
+//                            tvMemChatroomMes.setGravity(Gravity.RIGHT);
+//                            tvMemChatroomMes.append(text);
+//                        }else {
+//                            tvMemChatroomMes.setGravity(Gravity.LEFT);
+//                            tvMemChatroomMes.append(text);
+//                        }
 
-                            tvMemChatroomMes.append(text);
+
+                        // 測試方法2 只能顯示出一行
+//                        if(USER_NAME.equals(userName)){
+//                            LinearLayout ll_append = new LinearLayout(mContext);
+//                            LinearLayout.LayoutParams  ll_params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+//                            ll_append.setLayoutParams(ll_params);
+//                            ll_append.setGravity(Gravity.RIGHT);
+//                            TextView tvMemChatroomMes = new TextView(mContext);
+//                            tvMemChatroomMes.setText(text);
+//                            (ll_append).addView(tvMemChatroomMes);
+//                            llMemChatroomMes.addView(ll_append);
+//                        } else{
+//                            LinearLayout ll_append = new LinearLayout(mContext);
+//                            LinearLayout.LayoutParams  ll_params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+//                            ll_append.setLayoutParams(ll_params);
+//                            ll_append.setGravity(Gravity.LEFT);
+//                            TextView tvMemChatroomMes = new TextView(mContext);
+//                            tvMemChatroomMes.setText(text);
+//                            (ll_append).addView(tvMemChatroomMes);
+//                            llMemChatroomMes.addView(ll_append);
+//                        }
+
+                        // 測試方法3
+                        if (USER_NAME.equals(userName)) {
+                            TextView tvMes = new TextView(mContext);
+                            tvMes.setGravity(Gravity.RIGHT);
+                            tvMes.setText(text);
+                            llMemChatroomMes.addView(tvMes);
+                        }else{
+                            TextView tvMes = new TextView(mContext);
+                            tvMes.setGravity(Gravity.LEFT);
+                            tvMes.setText(text);
+                            llMemChatroomMes.addView(tvMes);
+                        }
 
 
-                        svMemChatroomMes.fullScroll(View.FOCUS_DOWN);
+                    svMemChatroomMes.fullScroll(View.FOCUS_DOWN);
                     } catch (JSONException e) {
                         Log.e(TAG, e.toString());
                     }
@@ -98,36 +173,13 @@ public class MemChatroomActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mem_chatroom);
-        findViews();
 
-        // 改變對話視窗上面的名稱 {
-        TextView etChatroomName = (TextView) findViewById(R.id.etChatroomName);
-        Bundle bundle = getIntent().getExtras();
-        String MEM_NAME = bundle.getString("MEM_NAME");
-        etChatroomName.setText(MEM_NAME);
-        USER_NAME = MEM_NAME;
-        // }
-
-        // web socket 測試 {
-        URI uri = null;
-        try {
-            uri = new URI(SERVER_URI);
-        } catch (URISyntaxException e) {
-            Log.e(TAG, e.toString());
-        }
-        myWebSocketClient = new MyWebSocketClient(uri);
-        myWebSocketClient.connect();
-        // }
-    }
 
     private void findViews() {
-        tvMemChatroomMes = (TextView) findViewById(R.id.tvMemChatroomMes);
+//        tvMemChatroomMes = (TextView) findViewById(R.id.tvMemChatroomMes);
         etMemChatroomMes = (EditText) findViewById(R.id.etMemChatroomMes);
         svMemChatroomMes = (ScrollView) findViewById(R.id.svMemChatroomMes);
+        llMemChatroomMes = (LinearLayout) findViewById(R.id.llMemChatroomMes);
     }
 
     public void onSendMessage(View view) {

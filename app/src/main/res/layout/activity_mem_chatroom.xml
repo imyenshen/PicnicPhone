@@ -37,6 +37,7 @@
     </RelativeLayout>
 
 
+
     <ScrollView
         android:padding="10dp"
         android:id="@+id/svMemChatroomMes"
@@ -45,12 +46,16 @@
         android:background="@drawable/border"
         android:layout_weight="0.23">
 
-            <TextView
-                android:background="@drawable/border"
-                android:id="@+id/tvMemChatroomMes"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:textSize="25sp" />
+        <!-- 測試-->
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@drawable/border"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/llMemChatroomMes"
+            android:layout_width="match_parent"
+            android:layout_height="422dp">
+
+        </LinearLayout>
 
 
     </ScrollView>
